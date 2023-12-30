@@ -1,18 +1,32 @@
-import React, { useContext } from "react";
+// import React, { useContext } from "react";
 import { View, FlatList, StyleSheet, Text } from "react-native";
 import { MEALS } from "../data/dummy-data";
-import { FavoritesContext } from "../Store/Context/Favorites-Context";
+// import { FavoritesContext } from "../Store/Context/Favorites-Context";
 import MealIteam from "../Components/MealIteam";
+import { useSelector } from "react-redux";
 
 const FavoritesScreen = () => {
-  const favoriteContext = useContext(FavoritesContext);
+  // const favoriteContext = useContext(FavoritesContext);
+  // const displayMeals = MEALS.filter((meal) =>
+  //   favoriteContext.ids.includes(meal.id)
+  // );
+
+  const favoritesMealIds = useSelector((state) => state.FavoriteStore.ids);
   const displayMeals = MEALS.filter((meal) =>
-    favoriteContext.ids.includes(meal.id)
+    favoritesMealIds.includes(meal.id)
   );
+
   if (displayMeals.length === 0) {
     return (
-      <View style={[styles.container,  {alignItems:"center", flex:1, justifyContent:'center'}]}>
-        <Text style={{fontSize:22, color:'white', fontWeight:'bold'}}>No Favorites Meals Found. Start Adding Some!</Text>
+      <View
+        style={[
+          styles.container,
+          { alignItems: "center", flex: 1, justifyContent: "center" },
+        ]}
+      >
+        <Text style={{ fontSize: 22, color: "white", fontWeight: "bold" }}>
+          No Favorites Meals Found. Start Adding Some!
+        </Text>
       </View>
     );
   }

@@ -9,21 +9,30 @@ import {
 } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import { FavoritesContext } from "../Store/Context/Favorites-Context";
+import { useDispatch, useSelector } from "react-redux";
+// import { CATEGORIES } from "../data/dummy-data";
+import { storeActions } from "../Store/Redux/Store";
 
 const MealDetails = ({ route, navigation }) => {
-  const favoriteContext = useContext(FavoritesContext);
+  // const favoriteContext = useContext(FavoritesContext);
+  const favoriteMealId = useSelector((state) => state.FavoriteStore.ids); 
+  const dispatch = useDispatch();
 
   const mealId = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-  const mealIsfav = favoriteContext.ids.includes(mealId);
+
+  // const mealIsfav = favoriteContext.ids.includes(mealId);
+  const mealIsfav = favoriteMealId.includes(mealId);
 
   const handlePress = () => {
     console.log("selectedMeal", selectedMeal.title);
     if (mealIsfav) {
-      favoriteContext.removeFavorite(mealId);
+      // favoriteContext.removeFavorite(mealId);
+      dispatch(storeActions.removeFavorite({ id: mealId }));
     }
     if (!mealIsfav) {
-      favoriteContext.addFavorite(mealId);
+      // favoriteContext.addFavorite(mealId);
+      dispatch(storeActions.addFavorite({ id: mealId }));
     }
   };
 
