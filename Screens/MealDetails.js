@@ -1,14 +1,31 @@
-import React, { useLayoutEffect } from "react";
-import { View, Text, Image, StyleSheet, ScrollView, Button } from "react-native";
+import React, { useLayoutEffect, useContext } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Button,
+} from "react-native";
 import { MEALS } from "../data/dummy-data";
+import { FavoritesContext } from "../Store/Context/Favorites-Context";
 
 const MealDetails = ({ route, navigation }) => {
+  const favoriteContext = useContext(FavoritesContext);
+
   const mealId = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const mealIsfav = favoriteContext.ids.includes(mealId);
 
   const handlePress = () => {
     console.log("selectedMeal", selectedMeal.title);
-  }
+    if (mealIsfav) {
+      favoriteContext.removeFavorite(mealId);
+    }
+    if (!mealIsfav) {
+      favoriteContext.addFavorite(mealId);
+    }
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -17,12 +34,16 @@ const MealDetails = ({ route, navigation }) => {
       headerRight: () => {
         return (
           <View>
-            <Button title="Mark Favourite" onPress={handlePress}/>
+            {mealIsfav ? (
+              <Button title="Remove Favourite" onPress={handlePress} />
+            ) : (
+              <Button title="Favourite" onPress={handlePress} />
+            )}
           </View>
         );
       },
     });
-  });
+  }, [navigation, handlePress]);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.outerContainer}>

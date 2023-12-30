@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler'
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, Button, View } from "react-native";
 import CategoriesScreem from "./Screens/CategoriesScreem";
@@ -10,8 +10,8 @@ import MealDetails from "./Screens/MealDetails";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
 import FavoritesScreen from "./Screens/FavoritesScreen";
-import { Ionicons } from '@expo/vector-icons';
-
+import { Ionicons } from "@expo/vector-icons";
+import FavoritesContextProvider from "./Store/Context/Favorites-Context";
 
 // import { Button } from "react-bootstrap";
 
@@ -58,54 +58,56 @@ export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar style="light" />
-      <NavigationContainer style={{ flex: 1 }}>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#351410" },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: "#3f2f35" },
-          }}
-        >
-          <Stack.Screen
-            name="Drawer"
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
-              // title: "All Categories",
-              // headerStyle: { backgroundColor: "#351410" },
-              // headerTintColor: "white",
-              // contentStyle: { backgroundColor: "#3f2f35" },
+      <FavoritesContextProvider>
+        <NavigationContainer style={{ flex: 1 }}>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#351410" },
+              headerTintColor: "white",
+              contentStyle: { backgroundColor: "#3f2f35" },
             }}
-          />
-          <Stack.Screen
-            name="Meals Overview"
-            component={MealsOverview}
-            // options={({route, navigation}) => {
-            //   const catId = route.params.categoryId;
-            //   const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
-            //   return {
-            //     title: selectedCategory.title,
-            //   }
+          >
+            <Stack.Screen
+              name="Drawer"
+              component={DrawerNavigator}
+              options={{
+                headerShown: false,
+                // title: "All Categories",
+                // headerStyle: { backgroundColor: "#351410" },
+                // headerTintColor: "white",
+                // contentStyle: { backgroundColor: "#3f2f35" },
+              }}
+            />
+            <Stack.Screen
+              name="Meals Overview"
+              component={MealsOverview}
+              // options={({route, navigation}) => {
+              //   const catId = route.params.categoryId;
+              //   const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
+              //   return {
+              //     title: selectedCategory.title,
+              //   }
 
-            // }}
-          />
-          <Stack.Screen
-            name="Meal Detail"
-            component={MealDetails}
-            options={{
-              contentStyle: { backgroundColor: "white" },
-              // headerRight: () => {
-              //   return (
-              //     <View>
-              //       <Button title="Tap Me" />
-              //     </View>
-              //   );
-              // },
-            }}
-          />
-        </Stack.Navigator>
-        {/* <CategoriesScreem /> */}
-      </NavigationContainer>
+              // }}
+            />
+            <Stack.Screen
+              name="Meal Detail"
+              component={MealDetails}
+              options={{
+                contentStyle: { backgroundColor: "white" },
+                // headerRight: () => {
+                //   return (
+                //     <View>
+                //       <Button title="Tap Me" />
+                //     </View>
+                //   );
+                // },
+              }}
+            />
+          </Stack.Navigator>
+          {/* <CategoriesScreem /> */}
+        </NavigationContainer>
+      </FavoritesContextProvider>
     </SafeAreaView>
   );
 }
